@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: bookmark_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-bookmark_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-bookmark_secret}
+      POSTGRES_DB: ${DB_NAME:-bookmark_db}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-bookmark_user} -d ${DB_NAME:-bookmark_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bookmark_api
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-8000}:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${DB_USER:-bookmark_user}:${DB_PASSWORD:-bookmark_secret}@db:5432/${DB_NAME:-bookmark_db}
+      - ENVIRONMENT=development
+      - DEBUG=true
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./app:/app/app:ro  # Mount for development (read-only)
+
+volumes:
+  postgres_data:
