@@ -13,6 +13,8 @@ dependencies = [
     "uvicorn[standard]",
     "pydantic",
     "pydantic-settings",
+    "email-validator",
+    "pydantic[email]",
     "sqlalchemy",
     "asyncpg",
     "psycopg2-binary",
