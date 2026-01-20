@@ -34,7 +34,6 @@ class Settings(BaseSettings):
     @property
     def async_database_url(self) -> str:
         """Get database URL with asyncpg driver for SQLAlchemy async support.
-        
         Cloud providers like Render use 'postgres://' but SQLAlchemy async needs 'postgresql+asyncpg://'.
         """
         url = self.database_url

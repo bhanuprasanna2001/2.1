@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Install Python dependencies
-COPY pyproject.toml .
+# Install Python dependencies (README.md needed for pyproject.toml metadata)
+COPY pyproject.toml README.md ./
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir .
 
