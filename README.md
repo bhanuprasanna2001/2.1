@@ -14,12 +14,27 @@ A REST API for managing bookmarks with collections and tags, built with FastAPI,
 ## Accidental .env push revert
 
 ```bash
+git rm --cached .env
+
+echo ".env" >> .gitignore
+git add .gitignore
+git commit -m "Remove .env file and add to .gitignore"
+
+
 # Clearing the git history where .env is present
 # https://algerwrites.medium.com/how-to-remove-env-from-git-commit-history-1d594917b376
-git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch .env" HEAD
+# https://dev.to/kodebae/how-to-remove-a-leaked-env-file-from-github-permanently-3lei
+git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch .env' --prune-empty --tag-name-filter cat -- --all
 
 # Force push
-git push --force
+git push --force --all
+git push --force --tags
+
+rm -rf .git/refs/original/
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
+
+# Revoke Any Leaked Credentials, regenerate them.
 ```
 
 ## Tech Stack
