@@ -15,6 +15,7 @@ A REST API for managing bookmarks with collections and tags, built with FastAPI,
 
 ```bash
 # Clearing the git history where .env is present
+# https://algerwrites.medium.com/how-to-remove-env-from-git-commit-history-1d594917b376
 git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch .env" HEAD
 
 # Force push
