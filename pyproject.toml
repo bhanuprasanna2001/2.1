@@ -15,6 +15,7 @@ dependencies = [
     "pydantic-settings",
     "sqlalchemy",
     "asyncpg",
+    "psycopg2-binary",
     "alembic",
     "python-multipart",
     "httpx",
