@@ -11,6 +11,16 @@ A REST API for managing bookmarks with collections and tags, built with FastAPI,
 - **Docker**: Containerized development and deployment
 - **Type Safety**: Full type hints with Pydantic v2 validation
 
+## Accidental .env push revert
+
+```bash
+# Clearing the git history where .env is present
+git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch .env" HEAD
+
+# Force push
+git push --force
+```
+
 ## Tech Stack
 
 | Component | Technology |
